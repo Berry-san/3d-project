@@ -41,19 +41,44 @@
 //   }
 // }
 
+// import * as THREE from 'three'
+
+// export function createTransparentCube(scene: THREE.Scene): THREE.Mesh {
+//   const geometry = new THREE.BoxGeometry(1, 1, 1)
+//   const materials = Array.from(
+//     { length: 6 },
+//     () =>
+//       new THREE.MeshStandardMaterial({
+//         color: 0xffffff, // White
+//         transparent: true,
+//         opacity: 0.5, // Semi-transparent
+//       })
+//   )
+//   const cube = new THREE.Mesh(geometry, materials)
+//   cube.castShadow = true
+//   cube.receiveShadow = true
+//   scene.add(cube)
+//   return cube
+// }
+
 import * as THREE from 'three'
 
 export function createTransparentCube(scene: THREE.Scene): THREE.Mesh {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
+
+  // Textured material for cube faces
+  const loader = new THREE.TextureLoader()
+  const texture = loader.load('/textures/cube-texture.jpg') // Replace with your texture file
   const materials = Array.from(
     { length: 6 },
     () =>
       new THREE.MeshStandardMaterial({
-        color: 0xffffff, // White
+        map: texture,
         transparent: true,
         opacity: 0.5, // Semi-transparent
       })
   )
+
   const cube = new THREE.Mesh(geometry, materials)
   cube.castShadow = true
   cube.receiveShadow = true
