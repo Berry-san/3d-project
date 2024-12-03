@@ -113,6 +113,107 @@
 //   material.color.copy(grayColor)
 // }
 
+// import * as THREE from 'three'
+
+// const velocity = new THREE.Vector3(0.02, 0.03, 0.01) // Ball's velocity
+
+// export function createBall(scene: THREE.Scene): THREE.Mesh {
+//   const geometry = new THREE.SphereGeometry(0.2, 32, 32)
+
+//   // Textured material for ball
+//   const loader = new THREE.TextureLoader()
+//   const texture = loader.load('/textures/ball-texture.jpg') // Replace with your texture file
+//   const material = new THREE.MeshStandardMaterial({
+//     map: texture,
+//     metalness: 0.7,
+//     roughness: 0.2,
+//   })
+
+//   const ball = new THREE.Mesh(geometry, material)
+//   ball.castShadow = true
+//   ball.receiveShadow = true
+//   scene.add(ball)
+//   return ball
+// }
+
+// export function updateBallPosition(
+//   ball: THREE.Mesh,
+//   cube: THREE.Mesh,
+//   onCollision: (faceIndex: number) => void
+// ): void {
+//   const ballRadius = 0.2 // Radius of the ball
+//   const halfCubeSize = 0.5 // Half size of the cube (1x1x1 cube)
+
+//   // Update ball position
+//   ball.position.add(velocity)
+
+//   // Check for collisions with cube walls
+//   for (let i = 0; i < 3; i++) {
+//     if (ball.position.getComponent(i) + ballRadius > halfCubeSize) {
+//       velocity.setComponent(i, -Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, halfCubeSize - ballRadius) // Prevent passing through
+//       onCollision(i * 2 + 1) // Positive face index
+//     } else if (ball.position.getComponent(i) - ballRadius < -halfCubeSize) {
+//       velocity.setComponent(i, Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, -halfCubeSize + ballRadius) // Prevent passing through
+//       onCollision(i * 2) // Negative face index
+//     }
+//   }
+// }
+
+// export function updateBallColor(ball: THREE.Mesh): void {
+//   const material = ball.material as THREE.MeshStandardMaterial
+//   const grayValue = Math.random()
+//   const grayColor = new THREE.Color(grayValue, grayValue, grayValue)
+//   material.color.copy(grayColor)
+// }
+
+// import * as THREE from 'three'
+
+// const velocity = new THREE.Vector3(0.02, 0.03, 0.01) // Ball's velocity
+
+// export function createBall(scene: THREE.Scene): THREE.Mesh {
+//   const geometry = new THREE.SphereGeometry(0.2, 32, 32)
+
+//   const material = new THREE.MeshStandardMaterial({
+//     // color: 0x808080, // Initial gray color
+//     color: 0xffffff, // Initial gray color
+//     metalness: 0.7,
+//     roughness: 0.5,
+//   })
+
+//   const ball = new THREE.Mesh(geometry, material)
+//   ball.castShadow = true // Enable shadow casting
+//   ball.receiveShadow = true // Enable shadow receiving
+//   scene.add(ball)
+//   return ball
+// }
+
+// export function updateBallPosition(
+//   ball: THREE.Mesh,
+//   cube: THREE.Mesh,
+//   onCollision: (faceIndex: number) => void
+// ): void {
+//   const ballRadius = 0.2 // Radius of the ball
+//   const halfCubeSize = 0.5 // Half size of the cube (1x1x1 cube)
+
+//   // Update ball position
+//   ball.position.add(velocity)
+
+//   // Check for collisions with cube walls
+//   for (let i = 0; i < 3; i++) {
+//     if (ball.position.getComponent(i) + ballRadius > halfCubeSize) {
+//       velocity.setComponent(i, -Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, halfCubeSize - ballRadius) // Prevent passing through
+//       onCollision(i * 2 + 1) // Positive face index
+//     } else if (ball.position.getComponent(i) - ballRadius < -halfCubeSize) {
+//       velocity.setComponent(i, Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, -halfCubeSize + ballRadius) // Prevent passing through
+//       onCollision(i * 2) // Negative face index
+//     }
+//   }
+// }
+
 import * as THREE from 'three'
 
 const velocity = new THREE.Vector3(0.02, 0.03, 0.01) // Ball's velocity
@@ -120,22 +221,48 @@ const velocity = new THREE.Vector3(0.02, 0.03, 0.01) // Ball's velocity
 export function createBall(scene: THREE.Scene): THREE.Mesh {
   const geometry = new THREE.SphereGeometry(0.2, 32, 32)
 
-  // Textured material for ball
-  const loader = new THREE.TextureLoader()
-  const texture = loader.load('/textures/ball-texture.jpg') // Replace with your texture file
-  const material = new THREE.MeshStandardMaterial({
-    map: texture,
-    metalness: 0.7,
-    roughness: 0.2,
+  const material = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, // White color
+    emissive: 0x404040, // Slight emissive glow
+    emissiveIntensity: 0.2,
+    roughness: 0.3,
+    metalness: 0.9,
+    reflectivity: 0.8,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
   })
 
   const ball = new THREE.Mesh(geometry, material)
-  ball.castShadow = true
-  ball.receiveShadow = true
+  ball.castShadow = true // Enable shadow casting
+  ball.receiveShadow = true // Enable shadow receiving
   scene.add(ball)
   return ball
 }
 
+// export function updateBallPosition(
+//   ball: THREE.Mesh,
+//   cube: THREE.Mesh,
+//   onCollision: (faceIndex: number) => void
+// ): void {
+//   const ballRadius = 0.2 // Radius of the ball
+//   const halfCubeSize = 0.5 // Half size of the cube (1x1x1 cube)
+
+//   // Update ball position
+//   ball.position.add(velocity)
+
+//   // Check for collisions with cube walls
+//   for (let i = 0; i < 3; i++) {
+//     if (ball.position.getComponent(i) + ballRadius > halfCubeSize) {
+//       velocity.setComponent(i, -Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, halfCubeSize - ballRadius) // Prevent passing through
+//       onCollision(i * 2 + 1) // Positive face index
+//     } else if (ball.position.getComponent(i) - ballRadius < -halfCubeSize) {
+//       velocity.setComponent(i, Math.abs(velocity.getComponent(i))) // Reverse velocity
+//       ball.position.setComponent(i, -halfCubeSize + ballRadius) // Prevent passing through
+//       onCollision(i * 2) // Negative face index
+//     }
+//   }
+// }
 export function updateBallPosition(
   ball: THREE.Mesh,
   cube: THREE.Mesh,
@@ -159,11 +286,4 @@ export function updateBallPosition(
       onCollision(i * 2) // Negative face index
     }
   }
-}
-
-export function updateBallColor(ball: THREE.Mesh): void {
-  const material = ball.material as THREE.MeshStandardMaterial
-  const grayValue = Math.random()
-  const grayColor = new THREE.Color(grayValue, grayValue, grayValue)
-  material.color.copy(grayColor)
 }
